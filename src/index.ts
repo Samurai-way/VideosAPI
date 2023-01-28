@@ -20,14 +20,24 @@ app.get('/products/:productTitle', (req, res) => {
     }
 })
 
-// app.get('/addresses/:addressesTitle', (req, res) => {
-//     const address = addresses.find(e => e.title === req.params.addressesTitle)
-//     if (address) {
-//         res.send(address)
-//     } else {
-//         res.send(404)
-//     }
-// })
+app.get('/addresses/:addressesTitle', (req, res) => {
+    const address = addresses.find(e => e.title === req.params.addressesTitle)
+    if (address) {
+        res.send(address)
+    } else {
+        res.send(404)
+    }
+})
+
+
+app.get('/products', (req, res) => {
+    if(req.query.title){
+        let searchString = req.query.title.toString()
+        res.send(products.filter(p => p.title.indexOf(searchString) > -1))
+    }else {
+        res.send(products)
+    }
+})
 
 app.get('/addresses/:id', (req, res) => {
     let address = addresses.find(e => e.id === +req.params.id)
