@@ -3,56 +3,32 @@ import express from 'express'
 const app = express()
 const port = 3000
 
-const products = [{title: 'tomato'}, {title: 'orange'}]
-const addresses = [{id: 1, title: 'Kiev'}, {id: 2, title: 'Odessa'}]
+const videos = [
+    {id: 0, title: 'YouTube', author: 'Oleg'},
+    {id: 1, title: 'Cinema', author: 'Artur'},
+    {id: 2, title: 'Change', author: 'Petya'},
+]
 
-app.get('/', (req, res) => {
-    const message = 'Hello!'
-    res.send(message)
-})
-
-app.get('/products/:productTitle', (req, res) => {
-    const product = products.find(e => e.title === req.params.productTitle)
-    if (product) {
-        res.send(product)
-    } else {
-        res.send(404)
-    }
-})
-
-app.get('/addresses/:addressesTitle', (req, res) => {
-    const address = addresses.find(e => e.title === req.params.addressesTitle)
-    if (address) {
-        res.send(address)
-    } else {
-        res.send(404)
-    }
-})
-
-
-app.get('/products', (req, res) => {
-    if(req.query.title){
-        let searchString = req.query.title.toString()
-        res.send(products.filter(p => p.title.indexOf(searchString) > -1))
+app.get('/videos', (req, res) => {
+    if(videos){
+        res.send(videos)
     }else {
-        res.send(products)
-    }
-})
-
-app.get('/addresses/:id', (req, res) => {
-    let address = addresses.find(e => e.id === +req.params.id)
-    if (address) {
-        res.send(address)
-    } else {
         res.send(404)
     }
+
+})
+
+app.post('/videos', (req, res) => {
+    if(videos){
+        res.send(videos)
+    }else {
+        res.send(404)
+    }
+
 })
 
 
-app.get('/friends', (req, res) => {
-    const message = 'Hello my friend!'
-    res.send(message)
-})
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
