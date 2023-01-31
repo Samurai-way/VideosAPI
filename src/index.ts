@@ -15,18 +15,20 @@ app.get('/videos', (req, res) => {
     }else {
         res.send(404)
     }
-
 })
 
 app.post('/videos', (req, res) => {
+    debugger
+    const video = req.body
+    videos.push(video)
     if(videos){
         res.send(videos)
     }else {
         res.send(404)
     }
-
 })
 
+const a = 15
 
 
 
