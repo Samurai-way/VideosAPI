@@ -31,6 +31,13 @@ app.post('/videos', (req, res) => {
 const a = 15
 
 
+console.log(1)
+setTimeout(()=>{
+    console.log(2)
+},0)
+Promise.resolve().then(()=>console.log(3))
+console.log(4)
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
