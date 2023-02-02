@@ -10,9 +10,9 @@ const videos = [
 ]
 
 app.get('/videos', (req, res) => {
-    if(videos){
+    if (videos) {
         res.send(videos)
-    }else {
+    } else {
         res.send(404)
     }
 })
@@ -21,23 +21,22 @@ app.post('/videos', (req, res) => {
     debugger
     const video = req.body
     videos.push(video)
-    if(videos){
+    if (videos) {
         res.send(videos)
-    }else {
+    } else {
         res.send(404)
     }
 })
 
-const a = 15
+app.delete('/videos/:id', (req, res) => {
+    const deleteVideo = videos.filter((v) => v.id === req.body.id)
+    if(videos){
+        res.send(deleteVideo)
+    }
+    res.send(404)
+})
 
-
-console.log(1)
-setTimeout(()=>{
-    console.log(2)
-},0)
-Promise.resolve().then(()=>console.log(3))
-console.log(4)
-
+const a = 10
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
