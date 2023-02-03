@@ -10,7 +10,12 @@ const persons = [
 ]
 
 app.get('/persons', (req, res) => {
-    res.send(persons)
+    if(req.query.name){
+        const searchString = req.query.name.toString()
+        res.send(persons.filter( p => p.name.indexOf(searchString) > -1))
+    }else {
+        res.send(persons)
+    }
 })
 
 // app.get('/persons/:personName', (req, res) => {
