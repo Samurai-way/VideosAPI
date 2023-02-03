@@ -34,6 +34,15 @@ app.post('/persons', (req, res) => {
     res.status(201).send(newPerson)
 })
 
+app.put('/persons/:id', (req, res) => {
+    const person = persons.find( p => p.id === +req.params.id)
+    if(person){
+        person.name = req.body.name
+        res.send(person)
+    }else {
+        res.send(404)
+    }
+})
 
 app.delete('/persons/:id', (req, res) => {
     for (let i = 0; i < persons.length; i++) {
