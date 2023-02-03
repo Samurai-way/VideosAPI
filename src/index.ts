@@ -1,4 +1,5 @@
 import express from 'express'
+import bodyParser from 'body-parser'
 
 const app = express()
 const port = 3000
@@ -9,6 +10,11 @@ const persons = [
     {id: 3, name: 'Oleg', age: 25},
 ]
 
+// const parserMiddleware = bodyParser({})
+// app.use(parserMiddleware)
+
+app.use(express.json({}))
+
 app.get('/persons', (req, res) => {
     if(req.query.name){
         const searchString = req.query.name.toString()
@@ -17,6 +23,29 @@ app.get('/persons', (req, res) => {
         res.send(persons)
     }
 })
+
+app.post('/persons', (req, res) => {
+    const newPerson = {
+        id: +(new Date()),
+        name: req.body.name,
+        age: +(new Date())
+    }
+    persons.push(newPerson)
+
+})
+
+
+app.delete('/persons/:id', (req, res) => {
+    for (let i = 0; i < persons.length; i++) {
+        if(persons[i].id === +req.params.id){
+            persons.splice(i, 1)
+            res.send(201)
+            return
+        }
+    }
+    res.send(404)
+})
+
 
 // app.get('/persons/:personName', (req, res) => {
 //     const person = persons.find(p => p.name === req.params.personName)
