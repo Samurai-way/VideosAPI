@@ -31,7 +31,7 @@ app.post('/persons', (req, res) => {
         age: +(new Date())
     }
     persons.push(newPerson)
-
+    res.status(201).send(newPerson)
 })
 
 
