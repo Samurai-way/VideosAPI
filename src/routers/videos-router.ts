@@ -59,12 +59,26 @@ videosRouter.get('/:id', (req: Request, res: Response) => {
 })
 videosRouter.delete('/:id', (req: Request, res: Response) => {
     const requestId = req.body.id
-    for (let i = 0; i < videos.length; i++) {
-        if (videos[i].id === requestId) {
-            videos.splice(i, 1)
-            res.send(204)
-            return
+    if (requestId) {
+        for (let i = 0; i < videos.length; i++) {
+            if (videos[i].id === requestId) {
+                videos.splice(i, 1)
+                res.send(204)
+                return
+            }
         }
+    } else {
+        res.send(404)
     }
-    res.send(404)
+})
+videosRouter.put('/:id', (req: Request, res: Response) => {
+    const {id, title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate} = req.body
+    const availableResolutionsArray = ["P144", "P240", "P360", "P480", "P720", "P1080", "P1440", "P2160"]
+    const availableValidation = availableResolutionsArray.some(el => availableResolutionsArray.indexOf(el) == -1)
+    if (!id || title.length > 40 || author.length > 20 || !availableValidation || !minAgeRestriction || minAgeRestriction.length > 18 || minAgeRestriction.length < 1) {
+        const videoMap = videos.map(v => ({...v, id: id, title: title, availableValidation: availableResolutions}))
+        res.status(204).send(videoMap)
+    } else {
+        res.send(404)
+    }
 })
