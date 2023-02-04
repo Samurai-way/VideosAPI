@@ -21,14 +21,33 @@ videosRouter.get('/', (req: Request, res: Response) => {
     res.status(200).send(videos)
 })
 videosRouter.post('/', (req: Request, res: Response) => {
-    const title = req.body.title
-    const author = req.body.author
+    const {title, author} = req.body
+    const availableResolutionsArray = ["P144", "P240", "P360", "P480", "P720", "P1080", "P1440", "P2160"]
+    const availableValidation = availableResolutionsArray.some(el => availableResolutionsArray.indexOf(el) == -1)
     const newVideo = {
-        id: (new Date().toISOString()),
-        title: title,
-        author: author,
-        availableResolutions: [
-            "P144"
-        ]
+        id: (new Date().toISOString()) as any,
+        title: title as any,
+        author: author as any,
+        canBeDownloaded: true,
+        minAgeRestriction: null,
+        createdAt: (Date.now()) as any,
+        publicationDate: (Date.now()) as any,
+        availableResolutions: [req.body.availableResolutions]
+
     }
+    if (!title || title.length > 40 || !author || author.length > 20 || !availableValidation) {
+        res.status(400).send({
+            errorsMessages: [
+                {
+                    message: "error",
+                    field: "error"
+                }
+            ]
+        })
+    }
+    videos.push(newVideo)
+    res.status(201).send(newVideo)
+})
+videosRouter.get('/', (req: Request, res: Response) => {
+    res.status(200).send(videos)
 })
