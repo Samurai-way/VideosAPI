@@ -172,5 +172,5 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
     //         videos[i].publicationDate = publicationDate
     //     }
     // }
-    res.sendStatus(204)
+    res.sendStatus(201)
 })
