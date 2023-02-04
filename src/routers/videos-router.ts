@@ -2,7 +2,7 @@ import {Request, Response, Router} from "express";
 
 export const videosRouter = Router({})
 
-export type RootObject = {
+export type VideoArrayTypes = {
     id: number;
     title: string;
     author: string;
@@ -13,7 +13,7 @@ export type RootObject = {
     availableResolutions: string[];
 }
 
-const videos: RootObject[] = [
+const videos: VideoArrayTypes[] = [
     {
         id: 0,
         title: "string",
@@ -35,9 +35,7 @@ videosRouter.post('/', (req: Request, res: Response) => {
     const {title, author, availableResolutions} = req.body
     const availableResolutionsArray = ["P144", "P240", "P360", "P480", "P720", "P1080", "P1440", "P2160"]
     const availableValidation = availableResolutions.every((el: any) => availableResolutionsArray.includes(el))
-    console.log(availableResolutions)
-    console.log(availableValidation)
-    const newVideo: RootObject = {
+    const newVideo: VideoArrayTypes = {
         id: +(new Date()),
         title,
         author,
@@ -79,13 +77,15 @@ videosRouter.post('/', (req: Request, res: Response) => {
     res.status(201).send(newVideo)
 })
 videosRouter.get('/:id', (req: Request, res: Response) => {
-    const requestId = req.body.id
-    const findVideoById = videos.find(v => v.id === requestId)
-    if (!requestId) {
-        res.status(404).send('If video for passed id doesn\'t exist')
+    const requestId = req.params.id
+    const video = videos.find((v) => v.id === +requestId)
+    console.log(video)
+    if (requestId) {
+        res.status(200).send(video)
     } else {
-        res.status(200).send(findVideoById)
+        res.status(404).send('If video for passed id doesn\'t exist')
     }
+
 })
 videosRouter.delete('/:id', (req: Request, res: Response) => {
     const requestId = req.body.id
@@ -93,12 +93,12 @@ videosRouter.delete('/:id', (req: Request, res: Response) => {
         for (let i = 0; i < videos.length; i++) {
             if (videos[i].id === requestId) {
                 videos.splice(i, 1)
-                res.send(204)
+                res.status(204).send('No Content')
                 return
             }
         }
     } else {
-        res.send(404)
+        res.status(404).send('Not Found')
     }
 })
 videosRouter.put('/:id', (req: Request, res: Response) => {
