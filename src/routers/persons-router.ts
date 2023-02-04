@@ -11,7 +11,7 @@ const persons = [
 ]
 
 
-arrRouter.get('/arr', (req: Request, res: Response) => {
+arrRouter.get('/', (req: Request, res: Response) => {
     res.send(arr)
 })
 personsRouter.get('/', (req: Request, res: Response) => {
