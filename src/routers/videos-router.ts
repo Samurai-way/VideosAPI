@@ -47,14 +47,14 @@ videosRouter.post('/', (req: Request, res: Response) => {
 
     }
     const arr = []
-    if (!title || title.length > 40 || title.trim()) {
+    if (!title || title.length > 40 || !title.trim()) {
         const exeption = {
             message: "error",
             field: "title"
         }
         arr.push(exeption)
     }
-    if (!author || author.length > 20 || author.trim()) {
+    if (!author || author.length > 20 || !author.trim()) {
         const exeption = {
             message: "error",
             field: "author"
