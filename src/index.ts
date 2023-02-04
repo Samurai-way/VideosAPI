@@ -1,5 +1,5 @@
 import express from 'express'
-import {personsRouter} from "./routers/persons-router";
+import {arrRouter, personsRouter} from "./routers/persons-router";
 
 const app = express()
 const port = 3000
@@ -10,6 +10,8 @@ const port = 3000
 
 app.use(express.json({}))
 app.use('/persons', personsRouter)
+app.use('/arr', arrRouter)
+
 
 
 app.listen(port, () => {
