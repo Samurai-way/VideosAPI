@@ -79,7 +79,7 @@ videosRouter.post('/', (req: Request, res: Response) => {
 videosRouter.get('/:id', (req: Request, res: Response) => {
     const requestId = +req.params.id
     const video = videos.find((v) => v.id === requestId)
-    console.log("requestId", requestId, 'video', video)
+    console.log(video)
     if (video) {
         res.status(200).send(video)
     } else {
@@ -107,7 +107,16 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
     const findVideo = videos.find(v => v.id === id)
     console.log(id)
     const arr = []
-    if (!id) {
+    if (findVideo) {
+        findVideo.title = title
+        findVideo.author = author
+        findVideo.availableResolutions = availableResolutions
+        findVideo.canBeDownloaded = false
+        findVideo.minAgeRestriction = minAgeRestriction
+        findVideo.publicationDate = publicationDate
+    }
+    res.sendStatus(201)
+    if (!findVideo) {
         const exeption = {
             message: "error",
             field: "id"
@@ -154,14 +163,7 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
             errorsMessages: arr
         })
     }
-    if (findVideo) {
-        findVideo.title = title
-        findVideo.author = author
-        findVideo.availableResolutions = availableResolutions
-        findVideo.canBeDownloaded = false
-        findVideo.minAgeRestriction = minAgeRestriction
-        findVideo.publicationDate = publicationDate
-    }
+
     // for (let i = 0; i < videos.length; i++) {
     //     if(videos[i].id === id){
     //         videos[i].title = title
@@ -172,5 +174,5 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
     //         videos[i].publicationDate = publicationDate
     //     }
     // }
-    res.sendStatus(201)
+
 })
