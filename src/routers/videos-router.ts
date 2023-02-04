@@ -90,13 +90,8 @@ videosRouter.get('/:id', (req: Request, res: Response) => {
 videosRouter.delete('/:id', (req: Request, res: Response) => {
     const requestId = req.body.id
     if (requestId) {
-        for (let i = 0; i < videos.length; i++) {
-            if (videos[i].id === requestId) {
-                videos.splice(i, 1)
-                res.status(204).send('No Content')
-                return
-            }
-        }
+        const filteredVideo = videos.filter(v => v.id !== requestId)
+        res.status(204).send(filteredVideo)
     } else {
         res.status(404).send('Not Found')
     }
