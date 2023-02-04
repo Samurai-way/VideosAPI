@@ -57,3 +57,14 @@ videosRouter.get('/:id', (req: Request, res: Response) => {
         res.status(200).send(findVideoById)
     }
 })
+videosRouter.delete('/:id', (req: Request, res: Response) => {
+    const requestId = req.body.id
+    for (let i = 0; i < videos.length; i++) {
+        if (videos[i].id === requestId) {
+            videos.splice(i, 1)
+            res.send(204)
+            return
+        }
+    }
+    res.send(404)
+})
