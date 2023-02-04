@@ -48,6 +48,12 @@ videosRouter.post('/', (req: Request, res: Response) => {
     videos.push(newVideo)
     res.status(201).send(newVideo)
 })
-videosRouter.get('/', (req: Request, res: Response) => {
-    res.status(200).send(videos)
+videosRouter.get('/:id', (req: Request, res: Response) => {
+    const requestId = req.body.id
+    const findVideoById = videos.find(v => v.id === requestId)
+    if (!requestId) {
+        res.status(404).send('If video for passed id doesn\'t exist')
+    } else {
+        res.status(200).send(findVideoById)
+    }
 })
