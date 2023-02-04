@@ -13,7 +13,7 @@ export type VideoArrayTypes = {
     availableResolutions: string[];
 }
 
-const videos: VideoArrayTypes[] = [
+let videos: VideoArrayTypes[] = [
     {
         id: 0,
         title: "string",
@@ -77,10 +77,10 @@ videosRouter.post('/', (req: Request, res: Response) => {
     res.status(201).send(newVideo)
 })
 videosRouter.get('/:id', (req: Request, res: Response) => {
-    const requestId = req.params.id
-    const video = videos.find((v) => v.id === +requestId)
-    console.log(video)
-    if (requestId) {
+    const requestId = +req.params.id
+    const video = videos.find((v) => v.id === requestId)
+    console.log("requestId", requestId, 'video', video)
+    if (video) {
         res.status(200).send(video)
     } else {
         res.status(404).send('If video for passed id doesn\'t exist')
@@ -88,13 +88,18 @@ videosRouter.get('/:id', (req: Request, res: Response) => {
 
 })
 videosRouter.delete('/:id', (req: Request, res: Response) => {
-    const requestId = req.body.id
-    if (requestId) {
-        const filteredVideo = videos.filter(v => v.id !== requestId)
-        res.status(204).send(filteredVideo)
+    const id = +req.params.id
+    const video = videos.filter(b => b.id !== id)
+    if (video.length < videos.length) {
+        videos = video
+        res.send(204)
     } else {
-        res.status(404).send('Not Found')
+        res.send(404)
     }
+})
+videosRouter.delete('/testing/all-data', (req: Request, res: Response) => {
+    videos = []
+    res.status(204).send('All data is deleted')
 })
 videosRouter.put('/:id', (req: Request, res: Response) => {
     const {id, title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate} = req.body
