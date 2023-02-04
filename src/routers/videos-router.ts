@@ -47,14 +47,14 @@ videosRouter.post('/', (req: Request, res: Response) => {
 
     }
     const arr = []
-    if (!title || title.length > 40) {
+    if (!title || title.length > 40 || title.trim()) {
         const exeption = {
             message: "error",
             field: "title"
         }
         arr.push(exeption)
     }
-    if (!author || author.length > 20) {
+    if (!author || author.length > 20 || author.trim()) {
         const exeption = {
             message: "error",
             field: "author"
@@ -123,14 +123,14 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
         }
         arr.push(exeption)
     }
-    if (!title || title.length > 40) {
+    if (!title || title.length > 40 || title.trim()) {
         const exeption = {
             message: "error",
             field: "id"
         }
         arr.push(exeption)
     }
-    if (!author || author.length > 20) {
+    if (!author || author.length > 20 || author.trim()) {
         const exeption = {
             message: "error",
             field: "author"
@@ -151,7 +151,7 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
         }
         arr.push(exeption)
     }
-    if (minAgeRestriction.length < 1 || minAgeRestriction.length > 18) {
+    if (minAgeRestriction.length < 1 || minAgeRestriction.length > 18 || minAgeRestriction.trim()) {
         const exeption = {
             message: "error",
             field: "minAgeRestriction"
