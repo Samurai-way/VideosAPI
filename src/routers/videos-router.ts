@@ -73,7 +73,7 @@ videosRouter.put('/:id', title, author, availableResolutions, canBeDownloaded, m
         findVideo.title = title
         findVideo.author = author
         findVideo.availableResolutions = availableResolutions
-        findVideo.canBeDownloaded = false
+        findVideo.canBeDownloaded = canBeDownloaded
         findVideo.minAgeRestriction = minAgeRestriction
         findVideo.publicationDate = publicationDate
     }
