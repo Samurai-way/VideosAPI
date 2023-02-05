@@ -3,7 +3,6 @@ import {
     author,
     availableResolutions,
     canBeDownloaded,
-    createdAt,
     minAgeRestriction,
     publicationDate,
     title
@@ -28,7 +27,7 @@ export let videos: VideoArrayTypes[] = []
 videosRouter.get('/', (req: Request, res: Response) => {
     res.status(200).send(videos)
 })
-videosRouter.post('/', title, author, canBeDownloaded, minAgeRestriction, createdAt, publicationDate, availableResolutions, minAgeRestriction, inputValidationMiddleware, (req: Request, res: Response) => {
+videosRouter.post('/', title, author, availableResolutions, inputValidationMiddleware, (req: Request, res: Response) => {
     const {title, author, availableResolutions} = req.body
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -66,7 +65,6 @@ videosRouter.delete('/:id', (req: Request, res: Response) => {
         res.send(404)
     }
 })
-
 videosRouter.put('/:id', title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate, inputValidationMiddleware, (req: Request, res: Response) => {
     const {title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate} = req.body
     const id = +req.params.id
