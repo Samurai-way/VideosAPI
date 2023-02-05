@@ -35,7 +35,7 @@ videosRouter.post('/', title, author, availableResolutions, inputValidationMiddl
         id: +(new Date()),
         title,
         author,
-        canBeDownloaded: true,
+        canBeDownloaded: false,
         minAgeRestriction: null,
         createdAt: new Date(),
         publicationDate: tomorrow,
