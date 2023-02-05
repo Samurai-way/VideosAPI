@@ -70,12 +70,11 @@ videosRouter.put('/:id', title, author, availableResolutions, canBeDownloaded, m
     const id = +req.params.id
     const findVideo = videos.find(v => v.id === id)
     if (findVideo) {
-        findVideo.id = id
         findVideo.title = title
         findVideo.author = author
         findVideo.availableResolutions = availableResolutions
         findVideo.canBeDownloaded = canBeDownloaded
-        findVideo.minAgeRestriction = minAgeRestriction.toString()
+        findVideo.minAgeRestriction = +minAgeRestriction
         findVideo.publicationDate = publicationDate
     }
     res.sendStatus(204)
