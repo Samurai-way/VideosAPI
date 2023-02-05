@@ -1,7 +1,9 @@
 import {body} from "express-validator";
+import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
 
 const tomorrow = new Date();
-tomorrow.setDate(tomorrow.getDate()+1);
+tomorrow.setDate(tomorrow.getDate() + 1);
+
 
 export const title = body('title').trim().isLength({max: 40, min: 1}).withMessage('title maxLength: 40')
 export const author = body('author').trim().isLength({max: 20, min: 1}).withMessage('author maxLength: 20')
@@ -19,3 +21,5 @@ export const availableResolutions = body('availableResolutions').custom((value, 
 })
 
 
+export const postValidator = [title, author, availableResolutions, inputValidationMiddleware]
+export const putValidator = [title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate, inputValidationMiddleware]
