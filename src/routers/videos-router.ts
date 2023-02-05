@@ -70,6 +70,7 @@ videosRouter.put('/:id', title, author, availableResolutions, canBeDownloaded, m
     const id = +req.params.id
     const findVideo = videos.find(v => v.id === id)
     if (findVideo) {
+        findVideo.id = id
         findVideo.title = title
         findVideo.author = author
         findVideo.availableResolutions = availableResolutions
