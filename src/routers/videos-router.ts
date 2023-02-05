@@ -15,7 +15,20 @@ export type VideoArrayTypes = {
     availableResolutions: string[];
 }
 
-let videos: VideoArrayTypes[] = []
+let videos: VideoArrayTypes[] = [
+    // {
+    //     id: 0,
+    //     title: "string",
+    //     author: "string",
+    //     canBeDownloaded: true,
+    //     minAgeRestriction: null,
+    //     createdAt: new Date(),
+    //     publicationDate: new Date(),
+    //     availableResolutions: [
+    //         "P144"
+    //     ]
+    // }
+]
 
 videosRouter.get('/', (req: Request, res: Response) => {
     res.status(200).send(videos)
