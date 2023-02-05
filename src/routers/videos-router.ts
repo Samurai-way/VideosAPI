@@ -3,6 +3,7 @@ import {
     author,
     availableResolutions,
     canBeDownloaded,
+    createdAt,
     minAgeRestriction,
     publicationDate,
     title
@@ -27,10 +28,10 @@ export let videos: VideoArrayTypes[] = []
 videosRouter.get('/', (req: Request, res: Response) => {
     res.status(200).send(videos)
 })
-videosRouter.post('/', title, author, availableResolutions, inputValidationMiddleware, (req: Request, res: Response) => {
+videosRouter.post('/', title, author, canBeDownloaded, minAgeRestriction, createdAt, publicationDate, availableResolutions, minAgeRestriction, inputValidationMiddleware, (req: Request, res: Response) => {
     const {title, author, availableResolutions} = req.body
     const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate()+1);
+    tomorrow.setDate(tomorrow.getDate() + 1);
     const newVideo: VideoArrayTypes = {
         id: +(new Date()),
         title,
