@@ -1,4 +1,6 @@
 import {Request, Response, Router} from "express";
+import {author, minAgeRestriction, title} from "../validators/validators";
+import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
 
 export const videosRouter = Router({})
 
@@ -13,25 +15,12 @@ export type VideoArrayTypes = {
     availableResolutions: string[];
 }
 
-let videos: VideoArrayTypes[] = [
-    // {
-    //     id: 0,
-    //     title: "string",
-    //     author: "string",
-    //     canBeDownloaded: true,
-    //     minAgeRestriction: null,
-    //     createdAt: new Date(),
-    //     publicationDate: new Date(),
-    //     availableResolutions: [
-    //         "P144"
-    //     ]
-    // }
-]
+let videos: VideoArrayTypes[] = []
 
 videosRouter.get('/', (req: Request, res: Response) => {
     res.status(200).send(videos)
 })
-videosRouter.post('/', (req: Request, res: Response) => {
+videosRouter.post('/', title, author, inputValidationMiddleware, (req: Request, res: Response) => {
     const {title, author, availableResolutions} = req.body
     const availableResolutionsArray = ["P144", "P240", "P360", "P480", "P720", "P1080", "P1440", "P2160"]
     const availableValidation = availableResolutions.every((el: any) => availableResolutionsArray.includes(el))
@@ -47,20 +36,6 @@ videosRouter.post('/', (req: Request, res: Response) => {
 
     }
     const arr = []
-    if (!title || title.length > 40 || !title.trim()) {
-        const exeption = {
-            message: "error",
-            field: "title"
-        }
-        arr.push(exeption)
-    }
-    if (!author || author.length > 20 || !author.trim()) {
-        const exeption = {
-            message: "error",
-            field: "author"
-        }
-        arr.push(exeption)
-    }
     if (!availableValidation) {
         const exeption = {
             message: "error",
@@ -101,7 +76,7 @@ videosRouter.delete('/testing/all-data', (req: Request, res: Response) => {
     videos = []
     res.status(204).send('All data is deleted')
 })
-videosRouter.put('/:id', (req: Request, res: Response) => {
+videosRouter.put('/:id',title,author, inputValidationMiddleware,minAgeRestriction,(req: Request, res: Response) => {
     const {title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate} = req.body
     const id = +req.params.id
     const findVideo = videos.find(v => v.id === id)
@@ -123,14 +98,14 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
         }
         arr.push(exeption)
     }
-    if (!title || title.length > 40 || title.trim()) {
+    if (!title) {
         const exeption = {
             message: "error",
-            field: "id"
+            field: "title"
         }
         arr.push(exeption)
     }
-    if (!author || author.length > 20 || author.trim()) {
+    if (!author) {
         const exeption = {
             message: "error",
             field: "author"
@@ -151,28 +126,9 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
         }
         arr.push(exeption)
     }
-    if (minAgeRestriction.length < 1 || minAgeRestriction.length > 18 || minAgeRestriction.trim()) {
-        const exeption = {
-            message: "error",
-            field: "minAgeRestriction"
-        }
-        arr.push(exeption)
-    }
     if (arr.length) {
         res.status(400).send({
             errorsMessages: arr
         })
     }
-
-    // for (let i = 0; i < videos.length; i++) {
-    //     if(videos[i].id === id){
-    //         videos[i].title = title
-    //         videos[i].author = author
-    //         videos[i].availableResolutions = availableResolutions
-    //         videos[i].canBeDownloaded = false
-    //         videos[i].minAgeRestriction = minAgeRestriction
-    //         videos[i].publicationDate = publicationDate
-    //     }
-    // }
-
 })
