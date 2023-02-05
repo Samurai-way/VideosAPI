@@ -22,7 +22,7 @@ export type VideoArrayTypes = {
     availableResolutions: string[];
 }
 
-let videos: VideoArrayTypes[] = []
+export let videos: VideoArrayTypes[] = []
 
 videosRouter.get('/', (req: Request, res: Response) => {
     res.status(200).send(videos)
@@ -63,10 +63,7 @@ videosRouter.delete('/:id', (req: Request, res: Response) => {
         res.send(404)
     }
 })
-videosRouter.delete('/testing/all-data', (req: Request, res: Response) => {
-    videos = []
-    res.status(204).send('All data is deleted')
-})
+
 videosRouter.put('/:id', title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate, inputValidationMiddleware, (req: Request, res: Response) => {
     const {title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate} = req.body
     const id = +req.params.id
