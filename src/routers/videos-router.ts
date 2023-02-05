@@ -47,7 +47,6 @@ videosRouter.post('/', title, author, availableResolutions, inputValidationMiddl
 videosRouter.get('/:id', (req: Request, res: Response) => {
     const requestId = +req.params.id
     const video = videos.find((v) => v.id === requestId)
-    console.log(video)
     if (video) {
         res.status(200).send(video)
     } else {
@@ -60,7 +59,7 @@ videosRouter.delete('/:id', (req: Request, res: Response) => {
     const video = videos.filter(b => b.id !== id)
     if (video.length < videos.length) {
         videos = video
-        res.send(204)
+        res.status(204)
     } else {
         res.send(404)
     }
@@ -76,6 +75,7 @@ videosRouter.put('/:id', title, author, availableResolutions, canBeDownloaded, m
         findVideo.canBeDownloaded = canBeDownloaded
         findVideo.minAgeRestriction = +minAgeRestriction
         findVideo.publicationDate = publicationDate
+        res.send(204)
     }
-    res.sendStatus(204)
+    res.send(404)
 })
