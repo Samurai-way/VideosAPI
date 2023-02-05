@@ -74,7 +74,7 @@ videosRouter.put('/:id', title, author, availableResolutions, canBeDownloaded, m
         findVideo.author = author
         findVideo.availableResolutions = availableResolutions
         findVideo.canBeDownloaded = canBeDownloaded
-        findVideo.minAgeRestriction = minAgeRestriction
+        findVideo.minAgeRestriction = minAgeRestriction.toString()
         findVideo.publicationDate = publicationDate
     }
     res.sendStatus(204)
