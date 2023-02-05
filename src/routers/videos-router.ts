@@ -29,6 +29,8 @@ videosRouter.get('/', (req: Request, res: Response) => {
 })
 videosRouter.post('/', title, author, availableResolutions, inputValidationMiddleware, (req: Request, res: Response) => {
     const {title, author, availableResolutions} = req.body
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate()+1);
     const newVideo: VideoArrayTypes = {
         id: +(new Date()),
         title,
@@ -36,7 +38,7 @@ videosRouter.post('/', title, author, availableResolutions, inputValidationMiddl
         canBeDownloaded: true,
         minAgeRestriction: null,
         createdAt: new Date(),
-        publicationDate: new Date(),
+        publicationDate: tomorrow,
         availableResolutions: availableResolutions
     }
     videos.push(newVideo)
