@@ -59,7 +59,7 @@ videosRouter.delete('/:id', (req: Request, res: Response) => {
     const video = videos.filter(b => b.id !== id)
     if (video.length < videos.length) {
         videos = video
-        res.status(204)
+        res.send(204)
     } else {
         res.send(404)
     }
