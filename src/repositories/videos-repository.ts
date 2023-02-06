@@ -32,5 +32,11 @@ export const videosRepository = {
         }
         videos.push(newVideo)
         return newVideo
+    },
+    findVideo(requestId: number){
+        if(requestId){
+            const video = videos.find((v) => v.id === +requestId)
+            return video
+        }
     }
 }
