@@ -38,5 +38,23 @@ export const videosRepository = {
             const video = videos.find((v) => v.id === +requestId)
             return video
         }
+    },
+    deleteVideo(id: number){
+        if(id){
+            const video = videos.filter(b => b.id !== id)
+            return video
+        }
+    },
+    putVideo(id: number, title: string, author: string, availableResolutions: string[], canBeDownloaded: boolean, minAgeRestriction: string, publicationDate: Date){
+        const findVideo = videos.find(v => v.id === id)
+        if (findVideo) {
+            findVideo.title = title
+            findVideo.author = author
+            findVideo.availableResolutions = availableResolutions
+            findVideo.canBeDownloaded = canBeDownloaded
+            findVideo.minAgeRestriction = +minAgeRestriction
+            findVideo.publicationDate = publicationDate
+            return findVideo
+        }
     }
 }

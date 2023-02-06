@@ -24,28 +24,20 @@ videosRouter.get('/:id', (req: Request, res: Response) => {
 
 
 })
-videosRouter.delete('/:id', (req: Request, res: Response) => {
-    const id = +req.params.id
-    const video = videos.filter(b => b.id !== id)
-    if (video.length < videos.length) {
-        videos = video
-        res.send(204)
-    } else {
-        res.send(404)
-    }
-})
+// videosRouter.delete('/:id', (req: Request, res: Response) => {
+//     const id = +req.params.id
+//     const video = videosRepository.deleteVideo(id)
+//     if (!video) {
+//         res.send(404)
+//     }
+//     res.send(204)
+// })
 videosRouter.put('/:id', putValidator, (req: Request, res: Response) => {
     const {title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate} = req.body
     const id = +req.params.id
-    const findVideo = videos.find(v => v.id === id)
-    if (findVideo) {
-        findVideo.title = title
-        findVideo.author = author
-        findVideo.availableResolutions = availableResolutions
-        findVideo.canBeDownloaded = canBeDownloaded
-        findVideo.minAgeRestriction = +minAgeRestriction
-        findVideo.publicationDate = publicationDate
-        res.send(204)
+    const putVideo = videosRepository.putVideo(id, title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate)
+    if (!putVideo) {
+        res.send(404)
     }
-    res.send(404)
+    res.send(204)
 })
