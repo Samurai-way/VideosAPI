@@ -7,7 +7,9 @@ const port = 3000
 let videos = []
 
 app.use(express.json({}))
+
 app.use('/videos', videosRouter)
+
 app.delete('/testing/all-data', (req: Request, res: Response) => {
     videos = []
     res.status(204).send('All data is deleted')

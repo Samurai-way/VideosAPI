@@ -4,7 +4,6 @@ import {inputValidationMiddleware} from "../middlewares/input-validation-middlew
 const tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
 
-
 export const title = body('title').trim().isLength({max: 40, min: 1}).withMessage('title maxLength: 40')
 export const author = body('author').trim().isLength({max: 20, min: 1}).withMessage('author maxLength: 20')
 export const canBeDownloaded = body('canBeDownloaded').isBoolean()
@@ -19,7 +18,6 @@ export const availableResolutions = body('availableResolutions').custom((value, 
     if (!toggle) throw new Error('availableResolutions')
     return true
 })
-
 
 export const postValidator = [title, author, availableResolutions, inputValidationMiddleware]
 export const putValidator = [title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate, inputValidationMiddleware]
