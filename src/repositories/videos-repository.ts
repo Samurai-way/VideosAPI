@@ -12,7 +12,7 @@ export type VideoArrayTypes = {
 export let videos: VideoArrayTypes[] = []
 
 export const videosRepository = {
-    findVideos() {
+    getVideos() {
         if (videos) {
             return videos
         }
@@ -33,9 +33,9 @@ export const videosRepository = {
         videos.push(newVideo)
         return newVideo
     },
-    findVideo(requestId: number){
+    getVideo(requestId: number){
         if(requestId){
-            const video = videos.find((v) => v.id === +requestId)
+            const video = videos.find((v) => v.id === requestId)
             return video
         }
     },
@@ -45,7 +45,7 @@ export const videosRepository = {
             return video
         }
     },
-    putVideo(id: number, title: string, author: string, availableResolutions: string[], canBeDownloaded: boolean, minAgeRestriction: string, publicationDate: Date){
+    updateVideo(id: number, title: string, author: string, availableResolutions: string[], canBeDownloaded: boolean, minAgeRestriction: string, publicationDate: Date){
         const findVideo = videos.find(v => v.id === id)
         if (findVideo) {
             findVideo.title = title
@@ -54,7 +54,9 @@ export const videosRepository = {
             findVideo.canBeDownloaded = canBeDownloaded
             findVideo.minAgeRestriction = +minAgeRestriction
             findVideo.publicationDate = publicationDate
-            return findVideo
+            return true
+        }else {
+            return false
         }
     }
 }
