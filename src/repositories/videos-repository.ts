@@ -33,19 +33,22 @@ export const videosRepository = {
         videos.push(newVideo)
         return newVideo
     },
-    getVideo(requestId: number){
-        if(requestId){
+    getVideo(requestId: number) {
+        if (requestId) {
             const video = videos.find((v) => v.id === requestId)
             return video
         }
     },
-    deleteVideo(id: number){
-        if(id){
-            const video = videos.filter(b => b.id !== id)
-            return video
+    deleteVideo(id: number) {
+        for (let i = 0; i < videos.length; i++) {
+            if (videos[i].id === id) {
+                videos.splice(i, 1)
+                return true
+            }
         }
+        return false
     },
-    updateVideo(id: number, title: string, author: string, availableResolutions: string[], canBeDownloaded: boolean, minAgeRestriction: string, publicationDate: Date){
+    updateVideo(id: number, title: string, author: string, availableResolutions: string[], canBeDownloaded: boolean, minAgeRestriction: string, publicationDate: Date) {
         const findVideo = videos.find(v => v.id === id)
         if (findVideo) {
             findVideo.title = title
@@ -55,7 +58,7 @@ export const videosRepository = {
             findVideo.minAgeRestriction = +minAgeRestriction
             findVideo.publicationDate = publicationDate
             return true
-        }else {
+        } else {
             return false
         }
     }
