@@ -44,13 +44,8 @@ export const videosRepository = {
         }
     },
     async deleteVideo(id: number): Promise<boolean> {
-        for (let i = 0; i < videos.length; i++) {
-            if (videos[i].id === id) {
-                videos.splice(i, 1)
-                return true
-            }
-        }
-        return false
+        const result = await client.db('shop').collection<VideoArrayTypes>('videos').deleteOne({id: id})
+        return result.deletedCount === 1
     },
     async updateVideo(id: number, title: string, author: string, availableResolutions: string[], canBeDownloaded: boolean, minAgeRestriction: string, publicationDate: Date): Promise<boolean> {
         const result = await client.db('shop').collection<VideoArrayTypes>('videos').updateOne({id: id}, {
