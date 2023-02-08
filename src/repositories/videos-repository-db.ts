@@ -1,23 +1,9 @@
-import {client} from "./db";
+import {VideoArrayTypes, videoCollection} from "./db";
 
-export type VideoArrayTypes = {
-    id: number;
-    title: string;
-    author: string;
-    canBeDownloaded: boolean;
-    minAgeRestriction?: any;
-    createdAt: Date;
-    publicationDate: Date;
-    availableResolutions: string[];
-}
-
-export let videos: VideoArrayTypes[] = []
-
-const videoCollection = client.db('shop').collection<VideoArrayTypes>('videos')
 
 export const videosRepository = {
     async getVideos(): Promise<VideoArrayTypes[] | undefined> {
-        if (videos) return videoCollection.find({}).toArray()
+        return videoCollection.find({}).toArray()
     },
     async createVideo(title: string, author: string, availableResolutions: string[]): Promise<VideoArrayTypes> {
         const tomorrow = new Date();
