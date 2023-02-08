@@ -13,11 +13,11 @@ export type VideoArrayTypes = {
 
 export let videos: VideoArrayTypes[] = []
 
+const videoCollection = client.db('shop').collection<VideoArrayTypes>('videos')
+
 export const videosRepository = {
     async getVideos(): Promise<VideoArrayTypes[] | undefined> {
-        if (videos) {
-            return client.db('shop').collection<VideoArrayTypes>('videos').find({}).toArray()
-        }
+        if (videos) return videoCollection.find({}).toArray()
     },
     async createVideo(title: string, author: string, availableResolutions: string[]): Promise<VideoArrayTypes> {
         const tomorrow = new Date();
@@ -32,11 +32,11 @@ export const videosRepository = {
             publicationDate: tomorrow,
             availableResolutions: availableResolutions
         }
-        const result = await client.db('shop').collection<VideoArrayTypes>('videos').insertOne(newVideo)
+        const result = await videoCollection.insertOne(newVideo)
         return newVideo
     },
     async getVideo(requestId: number): Promise<VideoArrayTypes | null> {
-        const video: VideoArrayTypes | null = await client.db('shop').collection<VideoArrayTypes>('videos').findOne({requestId})
+        const video: VideoArrayTypes | null = await videoCollection.findOne({id: requestId})
         if (video) {
             return video
         } else {
@@ -44,17 +44,19 @@ export const videosRepository = {
         }
     },
     async deleteVideo(id: number): Promise<boolean> {
-        const result = await client.db('shop').collection<VideoArrayTypes>('videos').deleteOne({id: id})
+        const result = await videoCollection.deleteOne({id: id})
         return result.deletedCount === 1
     },
     async updateVideo(id: number, title: string, author: string, availableResolutions: string[], canBeDownloaded: boolean, minAgeRestriction: string, publicationDate: Date): Promise<boolean> {
-        const result = await client.db('shop').collection<VideoArrayTypes>('videos').updateOne({id: id}, {
-            title: title,
-            author: author,
-            availableResolutions: availableResolutions,
-            canBeDownloaded: canBeDownloaded,
-            minAgeRestriction: +minAgeRestriction,
-            publicationDate: publicationDate
+        const result = await videoCollection.updateOne({id: id}, {
+            $set: {
+                title: title,
+                author: author,
+                availableResolutions: availableResolutions,
+                canBeDownloaded: canBeDownloaded,
+                minAgeRestriction: +minAgeRestriction,
+                publicationDate: publicationDate
+            }
         })
         return result.matchedCount === 1
     }
