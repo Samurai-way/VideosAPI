@@ -35,10 +35,12 @@ export const videosRepository = {
         videos.push(newVideo)
         return newVideo
     },
-    async getVideo(requestId: number): Promise<VideoArrayTypes | undefined> {
-        if (requestId) {
-            const video = videos.find((v) => v.id === requestId)
+    async getVideo(requestId: number): Promise<VideoArrayTypes | null> {
+        const video: VideoArrayTypes | null = await client.db('shop').collection<VideoArrayTypes>('videos').findOne({requestId})
+        if (video) {
             return video
+        } else {
+            return null
         }
     },
     async deleteVideo(id: number): Promise<boolean> {
