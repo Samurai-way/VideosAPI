@@ -1,3 +1,5 @@
+import {client} from "./db";
+
 export type VideoArrayTypes = {
     id: number;
     title: string;
@@ -14,7 +16,7 @@ export let videos: VideoArrayTypes[] = []
 export const videosRepository = {
     async getVideos(): Promise<VideoArrayTypes[] | undefined> {
         if (videos) {
-            return videos
+            return client.db('shop').collection<VideoArrayTypes>('videos').find({}).toArray()
         }
     },
     async createVideo(title: string, author: string, availableResolutions: string[]): Promise<VideoArrayTypes> {

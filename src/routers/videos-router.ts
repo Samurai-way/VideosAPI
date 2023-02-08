@@ -1,6 +1,6 @@
 import {Request, Response, Router} from "express";
 import {postValidator, putValidator} from "../validators/validators";
-import {videosRepository} from "../repositories/videos-repository";
+import {videosRepository} from "../repositories/videos-repository-db";
 
 export const videosRouter = Router({})
 
@@ -37,7 +37,7 @@ videosRouter.put('/:id', putValidator, async (req: Request, res: Response) => {
     const id = +req.params.id
     const putVideo = await videosRepository.updateVideo(id, title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate)
     if (putVideo) {
-        const video = videosRepository.getVideo(id)
+        const video = await videosRepository.getVideo(id)
         res.status(204).send(video)
     } else {
         res.send(404)

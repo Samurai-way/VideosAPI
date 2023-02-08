@@ -1,6 +1,6 @@
 import {MongoClient} from "mongodb";
 
-const mongoUrl = process.env.mongoURL || "mongo://0.0.0.0:27017"
+const mongoUrl = process.env.mongoURL || "mongodb://0.0.0.0:27017"
 
 export const client = new MongoClient(mongoUrl)
 
