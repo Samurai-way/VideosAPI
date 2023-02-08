@@ -1,5 +1,6 @@
 import express, {Request, Response} from 'express'
 import {videosRouter} from "./routers/videos-router";
+import {runDb} from "./repositories/db";
 
 const app = express()
 const port = 3000
@@ -15,7 +16,10 @@ app.delete('/testing/all-data', (req: Request, res: Response) => {
     res.status(204).send('All data is deleted')
 })
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
-
+const startApp = async () => {
+    await runDb()
+    app.listen(port, () => {
+        console.log(`Example app listening on port ${port}`)
+    })
+}
+startApp()
