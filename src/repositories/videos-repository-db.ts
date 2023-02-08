@@ -32,7 +32,7 @@ export const videosRepository = {
             publicationDate: tomorrow,
             availableResolutions: availableResolutions
         }
-        videos.push(newVideo)
+        const result = await client.db('shop').collection<VideoArrayTypes>('videos').insertOne(newVideo)
         return newVideo
     },
     async getVideo(requestId: number): Promise<VideoArrayTypes | null> {
