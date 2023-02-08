@@ -53,17 +53,14 @@ export const videosRepository = {
         return false
     },
     async updateVideo(id: number, title: string, author: string, availableResolutions: string[], canBeDownloaded: boolean, minAgeRestriction: string, publicationDate: Date): Promise<boolean> {
-        const findVideo = videos.find(v => v.id === id)
-        if (findVideo) {
-            findVideo.title = title
-            findVideo.author = author
-            findVideo.availableResolutions = availableResolutions
-            findVideo.canBeDownloaded = canBeDownloaded
-            findVideo.minAgeRestriction = +minAgeRestriction
-            findVideo.publicationDate = publicationDate
-            return true
-        } else {
-            return false
-        }
+        const result = await client.db('shop').collection<VideoArrayTypes>('videos').updateOne({id: id}, {
+            title: title,
+            author: author,
+            availableResolutions: availableResolutions,
+            canBeDownloaded: canBeDownloaded,
+            minAgeRestriction: +minAgeRestriction,
+            publicationDate: publicationDate
+        })
+        return result.matchedCount === 1
     }
 }
