@@ -5,29 +5,14 @@ export const videosRepository = {
     async getVideos(): Promise<VideoArrayTypes[] | undefined> {
         return videoCollection.find({}).toArray()
     },
-    async createVideo(title: string, author: string, availableResolutions: string[]): Promise<VideoArrayTypes> {
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        const newVideo: VideoArrayTypes = {
-            id: +(new Date()),
-            title,
-            author,
-            canBeDownloaded: false,
-            minAgeRestriction: null,
-            createdAt: new Date(),
-            publicationDate: tomorrow,
-            availableResolutions: availableResolutions
-        }
+    async createVideo(newVideo: VideoArrayTypes): Promise<VideoArrayTypes | any> {
         const result = await videoCollection.insertOne(newVideo)
-        return newVideo
+        return result
     },
     async getVideo(requestId: number): Promise<VideoArrayTypes | null> {
         const video: VideoArrayTypes | null = await videoCollection.findOne({id: requestId})
-        if (video) {
-            return video
-        } else {
-            return null
-        }
+        if (!video) return null
+        return video
     },
     async deleteVideo(id: number): Promise<boolean> {
         const result = await videoCollection.deleteOne({id: id})
