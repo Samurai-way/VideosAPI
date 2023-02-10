@@ -12,7 +12,7 @@ videosRouter.get('/', async (req: Request, res: Response) => {
 })
 videosRouter.post('/', postValidator, async (req: Request, res: Response) => {
     const {title, author, availableResolutions} = req.body
-    const newVideo = await videosRepository.createVideo(title, author, availableResolutions)
+    const newVideo = await videosService.createVideo(title, author, availableResolutions)
     res.status(201).send(newVideo)
 })
 videosRouter.get('/:id', async (req: Request, res: Response) => {
