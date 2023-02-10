@@ -1,12 +1,13 @@
 import {Request, Response, Router} from "express";
 import {postValidator, putValidator} from "../validators/validators";
 import {videosRepository} from "../repositories/videos-repository-db";
+import {videosService} from "../domain/videos-service";
 
 export const videosRouter = Router({})
 
 
 videosRouter.get('/', async (req: Request, res: Response) => {
-    const findVideos = await videosRepository.getVideos()
+    const findVideos = await videosService.getVideos()
     res.status(200).send(findVideos)
 })
 videosRouter.post('/', postValidator, async (req: Request, res: Response) => {
